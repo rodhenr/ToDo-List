@@ -1,0 +1,43 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  height: 100vh;
+}
+
+.container-main {
+  display: grid;
+  grid-template-columns: repeat(3, 350px);
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.container-add {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+
+  input {
+    border: none;
+    box-sizing: border-box;
+    height: 25px;
+    padding: 0.5rem;
+    width: 400px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+    height: 25px;
+  }
+
+  p {
+    margin: 0;
+  }
+}

@@ -1,0 +1,31 @@
+.container-concluido {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 1px 2px 2px hsl(220deg 60% 50% / 0.2),
+    2px 4px 4px hsl(220deg 60% 50% / 0.2), 4px 8px 8px hsl(220deg 60% 50% / 0.2),
+    8px 16px 16px hsl(220deg 60% 50% / 0.2),
+    16px 32px 32px hsl(220deg 60% 50% / 0.2);
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+
+  h1 {
+    border-bottom: 2px solid rgb(116, 194, 116);
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0.5rem;
+    text-align: center;
+  }
+}
+
+.item-concluido .container-item {
+  border: 1px solid rgb(116, 194, 116);
+  border-left: 8px solid rgb(116, 194, 116);
+}
+
+.container-item-concluido {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem;
+}

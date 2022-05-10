@@ -1,0 +1,13 @@
+.container-item {
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+
+  p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+}

@@ -1,43 +1,51 @@
 .container {
   align-items: center;
   display: flex;
-  flex-direction: column;
+  gap: 0.5rem;
   justify-content: center;
-  gap: 1rem;
   height: 100vh;
 }
 
-.container-main {
-  display: grid;
-  grid-template-columns: repeat(3, 350px);
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.container-add {
-  align-items: center;
+.coluna {
+  background-color: #fff;
+  border-radius: 7px;
   display: flex;
-  gap: 0.6rem;
-
-  input {
-    border: none;
-    box-sizing: border-box;
-    height: 25px;
-    padding: 0.5rem;
-    width: 400px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  button {
-    border: none;
-    cursor: pointer;
-    height: 25px;
-  }
+  flex-direction: column;
+  gap: 0.7rem;
+  height: 600px;
+  width: 300px;
 
   p {
-    margin: 0;
+    border-bottom: 2px solid black;
+    font-size: 1.2rem;
+    margin: 1rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.coluna-fazer {
+  p {
+    border-color: red;
+  }
+  .item {
+    border-color: red;
+  }
+}
+
+.coluna-andamento {
+  p {
+    border-color: rgb(223, 223, 28);
+  }
+  .item {
+    border-color: rgb(223, 223, 28);
+  }
+}
+
+.coluna-concluido {
+  p {
+    border-color: green;
+  }
+  .item {
+    border-color: green;
   }
 }

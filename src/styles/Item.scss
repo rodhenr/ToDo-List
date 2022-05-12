@@ -1,13 +1,12 @@
-.container-item {
+.item {
   align-items: center;
-  border-radius: 5px;
+  border: 1px solid black;
+  border-left: 6px solid black;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
-  padding: 1rem 0.5rem;
-
-  p {
-    font-size: 0.9rem;
-    margin: 0;
-  }
+  font-size: 0.9rem;
+  height: 50px;
+  margin: 0 1rem;
+  padding: 0 0.8rem;
 }

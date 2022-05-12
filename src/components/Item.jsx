@@ -1,37 +1,27 @@
 import { useDrag } from "react-dnd";
+
 import { NOME_COLUNAS } from "./constants";
+
 import "../styles/Item.scss";
 
-function Item({ name, setItens, currentColumnName }) {
-  const changeItemColumn = (currentItem, columnName) => {
-    setItens((prevState) => {
-      return prevState.map((e) => {
-        return {
-          ...e,
-          column: e.name === currentItem.name ? columnName : e.column,
-        };
-      });
-    });
-  };
-
+function Item({ desc, setItens, colunaAtual }) {
   const [{ isDragging }, drag] = useDrag({
     type: "item",
-    item: { name, currentColumnName },
+    item: { desc, colunaAtual },
     end: (item, monitor) => {
-      const dropResult = monitor.getDropResult();
-
+      const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
       if (dropResult) {
-        const { name } = dropResult;
+        const { nomeColuna } = dropResult;
         const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
-        switch (name) {
+        switch (nomeColuna) {
           case ANDAMENTO:
-            changeItemColumn(item, ANDAMENTO);
+            mudarColunaItem(item, ANDAMENTO);
             break;
           case CONCLUIDO:
-            changeItemColumn(item, CONCLUIDO);
+            mudarColunaItem(item, CONCLUIDO);
             break;
           case FAZER:
-            changeItemColumn(item, FAZER);
+            mudarColunaItem(item, FAZER);
             break;
           default:
             break;
@@ -45,9 +35,21 @@ function Item({ name, setItens, currentColumnName }) {
 
   const opacity = isDragging ? 0.4 : 1;
 
+  // Percorre o state em busca do item e altera o nome de sua coluna
+  function mudarColunaItem(item, nomeColuna) {
+    setItens((prevState) => {
+      return prevState.map((i) => {
+        return {
+          ...i,
+          coluna: i.desc === item.desc ? nomeColuna : i.coluna,
+        };
+      });
+    });
+  }
+
   return (
     <div ref={drag} className="item" style={{ opacity }}>
-      {name}
+      {desc}
     </div>
   );
 }

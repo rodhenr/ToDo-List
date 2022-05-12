@@ -13,18 +13,69 @@
   flex-direction: column;
   gap: 0.7rem;
   height: 600px;
-  width: 300px;
 
-  p {
-    border-bottom: 2px solid black;
-    font-size: 1.2rem;
-    margin: 1rem;
-    padding-bottom: 0.5rem;
+  width: 300px;
+}
+
+.coluna-desc {
+  align-items: center;
+  border-bottom: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 1rem;
+  padding-bottom: 0.5rem;
+  position: relative;
+}
+
+.desc {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.desc-info {
+  align-items: center;
+  display: flex;
+  font-size: 0.9rem;
+  display: flex;
+  gap: 0.5rem;
+
+  span {
+    &:nth-child(2) {
+      color: rgba(184, 184, 184, 0.409);
+    }
+  }
+}
+
+.desc-novo {
+  cursor: pointer;
+}
+
+.novo-item {
+  display: flex;
+  gap: 0.2rem;
+  width: 100%;
+
+  input {
+    border: 1px solid black;
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+    left: 0;
+    padding: 0.4rem;
+    width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+    width: 70px;
   }
 }
 
 .coluna-fazer {
-  p {
+  .coluna-desc {
     border-color: red;
   }
   .item {
@@ -33,7 +84,7 @@
 }
 
 .coluna-andamento {
-  p {
+  .coluna-desc {
     border-color: rgb(223, 223, 28);
   }
   .item {
@@ -42,7 +93,7 @@
 }
 
 .coluna-concluido {
-  p {
+  .coluna-desc {
     border-color: green;
   }
   .item {

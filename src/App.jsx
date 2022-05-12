@@ -17,30 +17,49 @@ function App() {
   const isMobile = window.innerWidth < 600;
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
-  const returnItemsForColumn = (columnName) => {
+  //Filtra os itens de cada coluna e os exibe
+  const exibirItens = (nomeColuna) => {
     return itens
-      .filter((item) => item.column === columnName)
-      .map((item, index) => (
+      .filter((i) => i.coluna === nomeColuna)
+      .map((item) => (
         <ItemMovivel
           key={item.id}
-          name={item.name}
+          desc={item.desc}
           setItens={setItens}
-          currentColumnName={item.column}
+          colunaAtual={item.coluna}
         />
       ));
   };
 
+  function salvarNovoItem(id, desc, coluna) {
+    setItens((prevState) => {
+      return [...prevState, { id, desc, coluna }];
+    });
+  }
+
   return (
     <div className="container">
       <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-        <Coluna title={FAZER} className="coluna coluna-fazer">
-          {returnItemsForColumn(FAZER)}
+        <Coluna
+          titulo={FAZER}
+          className="coluna coluna-fazer"
+          salvarNovoItem={salvarNovoItem}
+        >
+          {exibirItens(FAZER)}
         </Coluna>
-        <Coluna title={ANDAMENTO} className="coluna coluna-andamento">
-          {returnItemsForColumn(ANDAMENTO)}
+        <Coluna
+          titulo={ANDAMENTO}
+          className="coluna coluna-andamento"
+          salvarNovoItem={salvarNovoItem}
+        >
+          {exibirItens(ANDAMENTO)}
         </Coluna>
-        <Coluna title={CONCLUIDO} className="coluna coluna-concluido">
-          {returnItemsForColumn(CONCLUIDO)}
+        <Coluna
+          titulo={CONCLUIDO}
+          className="coluna coluna-concluido"
+          salvarNovoItem={salvarNovoItem}
+        >
+          {exibirItens(CONCLUIDO)}
         </Coluna>
       </DndProvider>
     </div>

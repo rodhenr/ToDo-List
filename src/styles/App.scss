@@ -6,6 +6,7 @@
   height: 100vh;
 
   h1 {
+    color: #38caa5;
     margin: 0;
     padding-bottom: 2rem;
   }
@@ -14,39 +15,24 @@
 .container-colunas {
   align-items: center;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.3rem;
   justify-content: center;
 }
 
 .coluna {
   background-color: #fff;
-  border-radius: 7px;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  height: 600px;
+  gap: 0.4rem;
+  height: 650px;
   overflow-y: scroll;
-  width: 300px;
+  padding-bottom: 1.2rem;
+  width: 350px;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  display: none;
 }
 
 .coluna-desc {
@@ -69,8 +55,9 @@
 
 .desc-info {
   align-items: center;
+  color: #262932;
   display: flex;
-  font-size: 0.9rem;
+  font-weight: 600;
   display: flex;
   gap: 0.5rem;
 
@@ -83,44 +70,78 @@
 
 .desc-novo {
   cursor: pointer;
+  font-size: 1.2rem;
 }
 
 .novo-item {
   display: flex;
-  gap: 0.2rem;
+  max-height: 0;
   width: 100%;
 
   input {
-    border: 1px solid black;
+    background-color: #dfe1ef;
+    border: none;
     border-radius: 0;
     box-sizing: border-box;
+    color: #000;
     font-size: 0.8rem;
     left: 0;
-    padding: 0.4rem;
+    padding: 0.6rem 0.4rem;
     width: 100%;
+
+    &::placeholder {
+      color: #000;
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   button {
+    border: none;
+    color: #fff;
     cursor: pointer;
-    width: 70px;
+    width: 50px;
   }
+}
+
+.novo-item.ativo {
+  max-height: 100%;
+  transition: 0.3s max-height linear;
 }
 
 .coluna-fazer {
   .coluna-desc {
-    border-color: red;
+    border-color: #f45849;
   }
-  .item {
-    border-color: red;
+
+  .item-circle {
+    background-color: #f45849;
+  }
+
+  .novo-item {
+    button {
+      background-color: #f45849;
+      color: #fff;
+    }
   }
 }
 
 .coluna-andamento {
   .coluna-desc {
-    border-color: rgb(223, 223, 28);
+    border-color: #efef02;
   }
-  .item {
-    border-color: rgb(223, 223, 28);
+
+  .item-circle {
+    background-color: #efef02;
+  }
+
+  .novo-item {
+    button {
+      background-color: #efef02;
+      color: #000;
+    }
   }
 }
 
@@ -128,7 +149,15 @@
   .coluna-desc {
     border-color: green;
   }
-  .item {
-    border-color: green;
+
+  .item-circle {
+    background-color: green;
+  }
+
+  .novo-item {
+    button {
+      background-color: green;
+      color: #fff;
+    }
   }
 }

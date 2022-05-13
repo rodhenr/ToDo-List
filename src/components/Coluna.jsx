@@ -1,6 +1,8 @@
 import { useState } from "react";
+
 import { useDrop } from "react-dnd";
-const { v4: uuidv4 } = require("uuid");
+
+import { v4 as uuidv4 } from "uuid";
 
 function Coluna({ children, className, titulo, salvarNovoItem }) {
   const [novoItem, setNovoItem] = useState("");
@@ -19,7 +21,7 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
   const getBackgroundColor = () => {
     if (isOver) {
       if (canDrop) {
-        return "#75d17bc8";
+        return "#ebebeb";
       }
     } else {
       return "";
@@ -40,7 +42,6 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
       salvarNovoItem(uuidv4(), novoItem, titulo);
       setNovoItem("");
       setOpen(false);
-      alert("Novo Item Adicionado!");
     } else {
       return;
     }
@@ -63,7 +64,7 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
             <span onClick={handleOpen}>{open ? "-" : "+"}</span>
           </div>
         </div>
-        <div className="novo-item">
+        <div className={open ? "novo-item ativo" : "novo-item"}>
           {open && (
             <>
               <input

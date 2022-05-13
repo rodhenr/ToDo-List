@@ -24,9 +24,15 @@ function App() {
   }, [itens]);
 
   function salvarNovoItem(id, desc, coluna) {
-    setItens((prevState) => {
-      return [...prevState, { id, desc, coluna }];
-    });
+    const repetido = itens.some((i) => i.desc === desc);
+
+    if (!repetido) {
+      setItens((prevState) => {
+        return [...prevState, { id, desc, coluna }];
+      });
+    } else {
+      alert("Item repetido! Digite outra descrição.");
+    }
   }
 
   function excluirItem(id) {
@@ -43,6 +49,7 @@ function App() {
           id={item.id}
           key={item.id}
           desc={item.desc}
+          itens={itens}
           setItens={setItens}
           colunaAtual={item.coluna}
           excluirItem={excluirItem}

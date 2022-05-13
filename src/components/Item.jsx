@@ -4,7 +4,7 @@ import { NOME_COLUNAS } from "./constants";
 
 import "../styles/Item.scss";
 
-function Item({ desc, setItens, colunaAtual }) {
+function Item({ desc, setItens, colunaAtual, excluirItem, id }) {
   const [{ isDragging }, drag] = useDrag({
     type: "item",
     item: { desc, colunaAtual },
@@ -50,6 +50,7 @@ function Item({ desc, setItens, colunaAtual }) {
   return (
     <div ref={drag} className="item" style={{ opacity }}>
       {desc}
+      <span onClick={() => excluirItem(id)}>X</span>
     </div>
   );
 }

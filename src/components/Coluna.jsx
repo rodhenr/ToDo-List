@@ -40,7 +40,7 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
       salvarNovoItem(uuidv4(), novoItem, titulo);
       setNovoItem("");
       setOpen(false);
-      alert("Novo Item Adicionado!")
+      alert("Novo Item Adicionado!");
     } else {
       return;
     }

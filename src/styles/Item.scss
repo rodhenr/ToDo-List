@@ -3,10 +3,16 @@
   border: 1px solid black;
   border-left: 6px solid black;
   border-radius: 4px;
-  cursor: pointer;
-  display: flex;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 10px;
   font-size: 0.9rem;
-  height: 50px;
+  min-height: 50px;
+  justify-content: space-between;
   margin: 0 1rem;
   padding: 0 0.8rem;
+
+  span {
+    cursor: pointer;
+  }
 }

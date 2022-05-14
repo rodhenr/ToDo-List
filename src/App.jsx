@@ -67,21 +67,39 @@ function App() {
             className="coluna coluna-fazer"
             salvarNovoItem={salvarNovoItem}
           >
-            {exibirItens(FAZER)}
+            {exibirItens(FAZER).length > 0 ? (
+              exibirItens(FAZER)
+            ) : (
+              <div className="coluna-sem-item">
+                <p>Sem itens para exibir</p>
+              </div>
+            )}
           </Coluna>
           <Coluna
             titulo={ANDAMENTO}
             className="coluna coluna-andamento"
             salvarNovoItem={salvarNovoItem}
           >
-            {exibirItens(ANDAMENTO)}
+            {exibirItens(ANDAMENTO).length > 0 ? (
+              exibirItens(ANDAMENTO)
+            ) : (
+              <div className="coluna-sem-item">
+                <p>Sem itens para exibir</p>
+              </div>
+            )}
           </Coluna>
           <Coluna
             titulo={CONCLUIDO}
             className="coluna coluna-concluido"
             salvarNovoItem={salvarNovoItem}
           >
-            {exibirItens(CONCLUIDO)}
+            {exibirItens(CONCLUIDO).length > 0 ? (
+              exibirItens(CONCLUIDO)
+            ) : (
+              <div className="coluna-sem-item">
+                <p>Sem itens para exibir</p>
+              </div>
+            )}
           </Coluna>
         </DndProvider>
       </div>

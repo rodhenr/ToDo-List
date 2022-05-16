@@ -17,6 +17,7 @@ function App() {
       : []
   );
   const isMobile = window.innerWidth < 600;
+
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
   useEffect(() => {
@@ -61,7 +62,10 @@ function App() {
     <div className="container">
       <h1>TODO LIST</h1>
       <div className="container-colunas">
-        <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+        <DndProvider
+          backend={isMobile ? TouchBackend : HTML5Backend}
+          options={{ enableMouseEvents: true }}
+        >
           <Coluna
             titulo={FAZER}
             className="coluna coluna-fazer"

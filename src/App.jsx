@@ -41,6 +41,10 @@ function App() {
     setItens(novoArray);
   }
 
+  function mudarItens(array) {
+    setItens(array);
+  }
+
   //Filtra os itens de cada coluna e os exibe
   const exibirItens = (nomeColuna) => {
     return itens
@@ -51,7 +55,7 @@ function App() {
           key={item.id}
           desc={item.desc}
           itens={itens}
-          setItens={setItens}
+          setItens={mudarItens}
           colunaAtual={item.coluna}
           excluirItem={excluirItem}
         />
@@ -72,9 +76,11 @@ function App() {
             salvarNovoItem={salvarNovoItem}
           >
             {exibirItens(FAZER).length > 0 ? (
-              exibirItens(FAZER)
+              <div className="gap-coluna" data-cy="itens-fazer">
+                {exibirItens(FAZER)}
+              </div>
             ) : (
-              <div className="coluna-sem-item">
+              <div className="coluna-sem-item" data-cy="fazer-sem-item">
                 <p>Sem itens para exibir</p>
               </div>
             )}
@@ -85,9 +91,11 @@ function App() {
             salvarNovoItem={salvarNovoItem}
           >
             {exibirItens(ANDAMENTO).length > 0 ? (
-              exibirItens(ANDAMENTO)
+              <div className="gap-coluna" data-cy="itens-andamento">
+                {exibirItens(ANDAMENTO)}
+              </div>
             ) : (
-              <div className="coluna-sem-item">
+              <div className="coluna-sem-item" data-cy="andamento-sem-item">
                 <p>Sem itens para exibir</p>
               </div>
             )}
@@ -98,9 +106,11 @@ function App() {
             salvarNovoItem={salvarNovoItem}
           >
             {exibirItens(CONCLUIDO).length > 0 ? (
-              exibirItens(CONCLUIDO)
+              <div className="gap-coluna" data-cy="itens-concluido">
+                {exibirItens(CONCLUIDO)}
+              </div>
             ) : (
-              <div className="coluna-sem-item">
+              <div className="coluna-sem-item" data-cy="concluido-sem-item">
                 <p>Sem itens para exibir</p>
               </div>
             )}

@@ -2,8 +2,9 @@ Uma lista de tarefas com opção de arrastar os itens entre as colunas e que sal
 
 Para este projeto foram utilizadas as seguintes tecnologias:
 
-* [React](https://pt-br.reactjs.org/)
-* [SASS](https://sass-lang.com/)
+- [React](https://pt-br.reactjs.org/)
+- [SASS](https://sass-lang.com/)
+- [Cypress](https://www.cypress.io/)
 
 ## Live Demo
 

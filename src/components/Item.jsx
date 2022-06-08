@@ -49,10 +49,10 @@ function Item({ desc, setItens, colunaAtual, excluirItem, id, itens }) {
   }
 
   return (
-    <div ref={drag} className="item" style={{ opacity }}>
+    <div ref={drag} className="item" style={{ opacity }} data-cy="item">
       <div className="item-circle"></div>
       {desc}
-      <span onClick={() => excluirItem(id)}>
+      <span onClick={() => excluirItem(id)} data-cy="excluir-item">
         <FontAwesomeIcon icon={faTrash} />
       </span>
     </div>

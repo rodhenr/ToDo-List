@@ -52,6 +52,7 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
       ref={drop}
       className={className}
       style={{ backgroundColor: getBackgroundColor() }}
+      data-cy="coluna"
     >
       <div className="coluna-desc">
         <div className="desc">
@@ -61,7 +62,9 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
             <span>{children.length}</span>
           </div>
           <div className="desc-novo">
-            <span onClick={handleOpen}>{open ? "-" : "+"}</span>
+            <span onClick={handleOpen} data-cy="novo-item">
+              {open ? "-" : "+"}
+            </span>
           </div>
         </div>
         <div className={open ? "novo-item ativo" : "novo-item"}>
@@ -72,8 +75,9 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
                 placeholder="Digite aqui"
                 value={novoItem}
                 onChange={handleChange}
+                data-cy='input-add'
               />
-              <button onClick={handleNovoItem}>Add</button>
+              <button onClick={handleNovoItem} data-cy="button-add">Add</button>
             </>
           )}
         </div>

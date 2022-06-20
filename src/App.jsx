@@ -5,43 +5,66 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { NOME_COLUNAS } from "./components/constants";
 
+import axios from "axios";
+
 import ItemMovivel from "./components/Item";
 import Coluna from "./components/Coluna";
 
 import "./styles/App.scss";
 
 function App() {
-  const [itens, setItens] = useState(
-    localStorage.getItem("itensSalvos") !== null
-      ? JSON.parse(localStorage.getItem("itensSalvos"))
-      : []
-  );
+  const [itens, setItens] = useState([]);
   const isMobile = window.innerWidth < 600;
-
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
   useEffect(() => {
-    localStorage.setItem("itensSalvos", JSON.stringify(itens));
-  }, [itens]);
+    const fetchDB = async () => {
+      const response = await axios
+        .get("http://localhost:8080/")
+        .then((resp) => {
+          if (resp.data.data[0]) {
+            return resp.data.data[0].item;
+          } else {
+            return [];
+          }
+        });
+      setItens(response);
+    };
 
-  function salvarNovoItem(id, desc, coluna) {
+    fetchDB();
+  }, []);
+
+  async function salvarNovoItem(id, desc, coluna) {
     const repetido = itens.some((i) => i.desc === desc);
 
     if (!repetido) {
-      setItens((prevState) => {
-        return [...prevState, { id, desc, coluna }];
+      const novoArray = [...itens, { id, desc, coluna }];
+
+      await axios.patch("http://localhost:8080/", {
+        item: JSON.stringify(novoArray),
       });
+
+      setItens(novoArray);
     } else {
       alert("Item repetido! Digite outra descrição.");
     }
   }
 
-  function excluirItem(id) {
+  async function excluirItem(id) {
     const novoArray = itens.filter((i) => i.id !== id);
+
+    await axios.patch("http://localhost:8080/", {
+      item: JSON.stringify(novoArray),
+    });
+
     setItens(novoArray);
   }
 
-  function mudarItens(array) {
+  async function mudarItens(array) {
+    await axios.patch("http://localhost:8080/", {
+      item: JSON.stringify(array),
+    });
+
     setItens(array);
   }
 

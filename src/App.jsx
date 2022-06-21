@@ -13,13 +13,13 @@ import "./styles/App.scss";
 
 function App() {
   const { data = [], isSuccess } = useGetAllTodosQuery(); // API
-  const storeItems = useSelector((state) => state.itensReducer.items);
+  const storeItems = isSuccess && data.data[0].item;
   const isMobile = window.innerWidth < 600;
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
   //Filtra os itens de cada coluna e os exibe
   const exibirItens = (nomeColuna) => {
-    return data.data[0].item
+    return storeItems
       .filter((i) => i.coluna === nomeColuna)
       .map((item) => (
         <ItemMovivel key={item.id} id={item.id} desc={item.desc} />

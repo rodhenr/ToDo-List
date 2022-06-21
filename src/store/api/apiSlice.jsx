@@ -7,7 +7,14 @@ export const apiSlice = createApi({
     getAllTodos: builder.query({
       query: () => "/todos",
     }),
+    changeTodos: builder.mutation({
+      query: (items) => ({
+        url: "/todos",
+        method: "PATCH",
+        body: items,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllTodosQuery } = apiSlice;
+export const { useGetAllTodosQuery, useChangeTodosMutation } = apiSlice;

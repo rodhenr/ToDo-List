@@ -7,10 +7,17 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../store/slices/ItensSlice";
 
+import {
+  useChangeTodosMutation,
+  useGetAllTodosQuery,
+} from "../store/api/apiSlice";
+
 function Coluna({ children, className, titulo }) {
+  const [changeTodos, { isLoading }] = useChangeTodosMutation(); // API
+  const { data = [], isSuccess } = useGetAllTodosQuery(); // API
+  let storeItems = data.data[0].item;
   const [newDesc, setNewDesc] = useState("");
   const [open, setOpen] = useState(false);
-  const storeItems = useSelector((state) => state.itensReducer.items);
   const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -49,7 +56,8 @@ function Coluna({ children, className, titulo }) {
       if (!itemRepetido) {
         const newID = uuidv4();
         const newItem = { id: newID, desc: newDesc, coluna: titulo };
-        dispatch(addTodo(newItem));
+        changeTodos([...storeItems, newItem]);
+        console.log([...storeItems, newItem]);
         setNewDesc("");
         setOpen(false);
       } else {

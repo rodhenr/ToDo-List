@@ -2,6 +2,10 @@ import { useDrag } from "react-dnd";
 
 import { useDispatch } from "react-redux";
 import { deleteTodo, mudarColuna } from "../store/slices/ItensSlice";
+import {
+  useChangeTodosMutation,
+  useGetAllTodosQuery,
+} from "../store/api/apiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +13,9 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../styles/Item.scss";
 
 function Item({ desc, id }) {
+  const [changeTodos] = useChangeTodosMutation(); // API
+  const { data = [], isSuccess } = useGetAllTodosQuery(); // API
+  let storeItems = data.data[0].item;
   const dispatch = useDispatch();
 
   const [{ isDragging }, drag] = useDrag({
@@ -18,7 +25,18 @@ function Item({ desc, id }) {
       const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
       if (dropResult) {
         const { nomeColuna } = dropResult;
-        dispatch(mudarColuna({ item, nomeColuna }));
+
+        const newItems = storeItems.filter((i) => {
+          if (i.desc === item.desc) {
+            return (i.coluna = nomeColuna);
+          } else {
+            return i;
+          }
+        });
+
+        console.log(newItems);
+
+        changeTodos([...newItems]);
       }
     },
     collect: (monitor) => ({

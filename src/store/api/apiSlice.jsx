@@ -10,4 +10,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetAllTodosQuery, useLazyGetAllTodosQuery } = apiSlice;
+export const { useGetAllTodosQuery } = apiSlice;

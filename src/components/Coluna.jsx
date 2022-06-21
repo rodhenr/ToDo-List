@@ -4,9 +4,14 @@ import { useDrop } from "react-dnd";
 
 import { v4 as uuidv4 } from "uuid";
 
-function Coluna({ children, className, titulo, salvarNovoItem }) {
-  const [novoItem, setNovoItem] = useState("");
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo } from "../store/slices/ItensSlice";
+
+function Coluna({ children, className, titulo }) {
+  const [newDesc, setNewDesc] = useState("");
   const [open, setOpen] = useState(false);
+  const storeItems = useSelector((state) => state.itensReducer.items);
+  const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "item",
@@ -34,14 +39,22 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
 
   function handleChange(e) {
     const value = e.target.value;
-    setNovoItem(value);
+    setNewDesc(value);
   }
 
   function handleNovoItem() {
-    if (novoItem !== "") {
-      salvarNovoItem(uuidv4(), novoItem, titulo);
-      setNovoItem("");
-      setOpen(false);
+    if (newDesc !== "") {
+      const itemRepetido = storeItems.some((i) => i.desc === newDesc);
+
+      if (!itemRepetido) {
+        const newID = uuidv4();
+        const newItem = { id: newID, desc: newDesc, coluna: titulo };
+        dispatch(addTodo(newItem));
+        setNewDesc("");
+        setOpen(false);
+      } else {
+        alert("Item repetido! Digite outra descrição.");
+      }
     } else {
       return;
     }
@@ -73,11 +86,13 @@ function Coluna({ children, className, titulo, salvarNovoItem }) {
               <input
                 type="text"
                 placeholder="Digite aqui"
-                value={novoItem}
+                value={newDesc}
                 onChange={handleChange}
-                data-cy='input-add'
+                data-cy="input-add"
               />
-              <button onClick={handleNovoItem} data-cy="button-add">Add</button>
+              <button onClick={() => handleNovoItem()} data-cy="button-add">
+                Add
+              </button>
             </>
           )}
         </div>

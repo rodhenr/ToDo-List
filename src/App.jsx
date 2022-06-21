@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { initialTodos } from "./store/slices/ItensSlice";
+import { useGetAllTodosQuery } from "./store/api/apiSlice";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { NOME_COLUNAS } from "./components/constants";
-
-import axios from "axios";
 
 import ItemMovivel from "./components/Item";
 import Coluna from "./components/Coluna";
@@ -13,75 +13,18 @@ import Coluna from "./components/Coluna";
 import "./styles/App.scss";
 
 function App() {
-  const [itens, setItens] = useState([]);
+  const { data = [], isSuccess, isPending } = useGetAllTodosQuery(); // API
+  const dispatch = useDispatch();
+  const storeItems = useSelector((state) => state.itensReducer.items);
   const isMobile = window.innerWidth < 600;
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
-  useEffect(() => {
-    const fetchDB = async () => {
-      const response = await axios
-        .get("http://localhost:8080/")
-        .then((resp) => {
-          if (resp.data.data[0]) {
-            return resp.data.data[0].item;
-          } else {
-            return [];
-          }
-        });
-      setItens(response);
-    };
-
-    fetchDB();
-  }, []);
-
-  async function salvarNovoItem(id, desc, coluna) {
-    const repetido = itens.some((i) => i.desc === desc);
-
-    if (!repetido) {
-      const novoArray = [...itens, { id, desc, coluna }];
-
-      await axios.patch("http://localhost:8080/", {
-        item: JSON.stringify(novoArray),
-      });
-
-      setItens(novoArray);
-    } else {
-      alert("Item repetido! Digite outra descrição.");
-    }
-  }
-
-  async function excluirItem(id) {
-    const novoArray = itens.filter((i) => i.id !== id);
-
-    await axios.patch("http://localhost:8080/", {
-      item: JSON.stringify(novoArray),
-    });
-
-    setItens(novoArray);
-  }
-
-  async function mudarItens(array) {
-    await axios.patch("http://localhost:8080/", {
-      item: JSON.stringify(array),
-    });
-
-    setItens(array);
-  }
-
   //Filtra os itens de cada coluna e os exibe
-  const exibirItens = (nomeColuna) => {
-    return itens
+  const exibirItens = async (nomeColuna) => {
+    return storeItems
       .filter((i) => i.coluna === nomeColuna)
       .map((item) => (
-        <ItemMovivel
-          id={item.id}
-          key={item.id}
-          desc={item.desc}
-          itens={itens}
-          setItens={mudarItens}
-          colunaAtual={item.coluna}
-          excluirItem={excluirItem}
-        />
+        <ItemMovivel key={item.id} id={item.id} desc={item.desc} />
       ));
   };
 
@@ -93,11 +36,7 @@ function App() {
           backend={isMobile ? TouchBackend : HTML5Backend}
           options={{ enableMouseEvents: true }}
         >
-          <Coluna
-            titulo={FAZER}
-            className="coluna coluna-fazer"
-            salvarNovoItem={salvarNovoItem}
-          >
+          <Coluna titulo={FAZER} className="coluna coluna-fazer">
             {exibirItens(FAZER).length > 0 ? (
               <div className="gap-coluna" data-cy="itens-fazer">
                 {exibirItens(FAZER)}
@@ -108,11 +47,7 @@ function App() {
               </div>
             )}
           </Coluna>
-          <Coluna
-            titulo={ANDAMENTO}
-            className="coluna coluna-andamento"
-            salvarNovoItem={salvarNovoItem}
-          >
+          <Coluna titulo={ANDAMENTO} className="coluna coluna-andamento">
             {exibirItens(ANDAMENTO).length > 0 ? (
               <div className="gap-coluna" data-cy="itens-andamento">
                 {exibirItens(ANDAMENTO)}
@@ -123,11 +58,7 @@ function App() {
               </div>
             )}
           </Coluna>
-          <Coluna
-            titulo={CONCLUIDO}
-            className="coluna coluna-concluido"
-            salvarNovoItem={salvarNovoItem}
-          >
+          <Coluna titulo={CONCLUIDO} className="coluna coluna-concluido">
             {exibirItens(CONCLUIDO).length > 0 ? (
               <div className="gap-coluna" data-cy="itens-concluido">
                 {exibirItens(CONCLUIDO)}

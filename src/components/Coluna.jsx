@@ -4,21 +4,16 @@ import { useDrop } from "react-dnd";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { useDispatch, useSelector } from "react-redux";
-import { addTodo } from "../store/slices/ItensSlice";
-
 import {
   useChangeTodosMutation,
   useGetAllTodosQuery,
 } from "../store/api/apiSlice";
 
 function Coluna({ children, className, titulo }) {
-  const [changeTodos, { isLoading }] = useChangeTodosMutation(); // API
-  const { data = [], isSuccess } = useGetAllTodosQuery(); // API
-  let storeItems = data.data[0].item;
+  const [changeTodos] = useChangeTodosMutation(); // API
+  const { data } = useGetAllTodosQuery(); // API
   const [newDesc, setNewDesc] = useState("");
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "item",
@@ -51,13 +46,12 @@ function Coluna({ children, className, titulo }) {
 
   function handleNovoItem() {
     if (newDesc !== "") {
-      const itemRepetido = storeItems.some((i) => i.desc === newDesc);
+      const itemRepetido = data.data[0].item.some((i) => i.desc === newDesc);
 
       if (!itemRepetido) {
         const newID = uuidv4();
         const newItem = { id: newID, desc: newDesc, coluna: titulo };
-        changeTodos([...storeItems, newItem]);
-        console.log([...storeItems, newItem]);
+        changeTodos([...data.data[0].item, newItem]);
         setNewDesc("");
         setOpen(false);
       } else {

@@ -1,7 +1,5 @@
 import { useDrag } from "react-dnd";
 
-import { useDispatch } from "react-redux";
-import { deleteTodo, mudarColuna } from "../store/slices/ItensSlice";
 import {
   useChangeTodosMutation,
   useGetAllTodosQuery,
@@ -14,9 +12,7 @@ import "../styles/Item.scss";
 
 function Item({ desc, id }) {
   const [changeTodos] = useChangeTodosMutation(); // API
-  const { data = [], isSuccess } = useGetAllTodosQuery(); // API
-  let storeItems = data.data[0].item;
-  const dispatch = useDispatch();
+  const { data } = useGetAllTodosQuery(); // API
 
   const [{ isDragging }, drag] = useDrag({
     type: "item",
@@ -26,15 +22,13 @@ function Item({ desc, id }) {
       if (dropResult) {
         const { nomeColuna } = dropResult;
 
-        const newItems = storeItems.filter((i) => {
+        const newItems = data.data[0].item.filter((i) => {
           if (i.desc === item.desc) {
             return (i.coluna = nomeColuna);
           } else {
             return i;
           }
         });
-
-        console.log(newItems);
 
         changeTodos([...newItems]);
       }
@@ -44,13 +38,18 @@ function Item({ desc, id }) {
     }),
   });
 
+  const handleDelete = (id) => {
+    const newItems = data.data[0].item.filter((i) => i.id !== id);
+    changeTodos([...newItems]);
+  };
+
   const opacity = isDragging ? 0.4 : 1;
 
   return (
     <div ref={drag} className="item" style={{ opacity }} data-cy="item">
       <div className="item-circle"></div>
       {desc}
-      <span onClick={() => dispatch(deleteTodo(id))} data-cy="excluir-item">
+      <span onClick={() => handleDelete(id)} data-cy="excluir-item">
         <FontAwesomeIcon icon={faTrash} />
       </span>
     </div>

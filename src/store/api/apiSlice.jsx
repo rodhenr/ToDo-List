@@ -9,7 +9,7 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: "/",
         method: "GET",
-        params: { u_id: id },
+        params: { id },
       }),
       providesTags: (result, error, arg) =>
         result

@@ -5,25 +5,49 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
   tagTypes: ["Todos", "Update"],
   endpoints: (builder) => ({
-    getAllTodos: builder.query({
-      query: () => "/todos",
+    getTodos: builder.query({
+      query: (id) => ({
+        url: "/",
+        method: "GET",
+        params: { u_id: id },
+      }),
       providesTags: (result, error, arg) =>
         result
-          ? [
-              ...result.data[0].item.map(({ id }) => ({ type: "Todos", id })),
-              "Todos",
-            ]
+          ? [...result.data.map(({ id }) => ({ type: "Todos", id })), "Todos"]
           : ["Todos"],
     }),
-    changeTodos: builder.mutation({
-      query: (items) => ({
-        url: "/todos",
+    addTodo: builder.mutation({
+      query: (item) => ({
+        url: "/",
+        method: "POST",
+        body: item,
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    updateTodo: builder.mutation({
+      query: (data) => ({
+        url: "/",
         method: "PATCH",
-        body: items,
+        body: {
+          data,
+        },
+      }),
+      invalidatesTags: ["Todos"],
+    }),
+    deleteTodo: builder.mutation({
+      query: (id) => ({
+        url: "/",
+        method: "DELETE",
+        params: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Todos", id: arg.id }],
     }),
   }),
 });
 
-export const { useGetAllTodosQuery, useChangeTodosMutation } = apiSlice;
+export const {
+  useGetTodosQuery,
+  useAddTodoMutation,
+  useUpdateTodoMutation,
+  useDeleteTodoMutation,
+} = apiSlice;

@@ -1,8 +1,8 @@
 import { useDrag } from "react-dnd";
 
 import {
-  useChangeTodosMutation,
-  useGetAllTodosQuery,
+  useUpdateTodoMutation,
+  useDeleteTodoMutation,
 } from "../store/api/apiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,27 +10,19 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/Item.scss";
 
-function Item({ desc, id }) {
-  const [changeTodos] = useChangeTodosMutation(); // API
-  const { data } = useGetAllTodosQuery(); // API
+function Item({ desc, task_id }) {
+  const [updateTodo] = useUpdateTodoMutation(); // API
+  const [deleteTodo] = useDeleteTodoMutation(); // API
 
   const [{ isDragging }, drag] = useDrag({
     type: "item",
-    item: { desc },
+    item: { task_id },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
       if (dropResult) {
         const { nomeColuna } = dropResult;
-
-        const newItems = data.data[0].item.filter((i) => {
-          if (i.desc === item.desc) {
-            return (i.coluna = nomeColuna);
-          } else {
-            return i;
-          }
-        });
-
-        changeTodos([...newItems]);
+        console.log(nomeColuna);
+        updateTodo({ id: task_id, item: { task: desc, coluna: nomeColuna } });
       }
     },
     collect: (monitor) => ({
@@ -39,8 +31,7 @@ function Item({ desc, id }) {
   });
 
   const handleDelete = (id) => {
-    const newItems = data.data[0].item.filter((i) => i.id !== id);
-    changeTodos([...newItems]);
+    deleteTodo(id);
   };
 
   const opacity = isDragging ? 0.4 : 1;
@@ -49,7 +40,7 @@ function Item({ desc, id }) {
     <div ref={drag} className="item" style={{ opacity }} data-cy="item">
       <div className="item-circle"></div>
       {desc}
-      <span onClick={() => handleDelete(id)} data-cy="excluir-item">
+      <span onClick={() => handleDelete(task_id)} data-cy="excluir-item">
         <FontAwesomeIcon icon={faTrash} />
       </span>
     </div>

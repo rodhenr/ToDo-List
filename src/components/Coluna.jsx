@@ -2,16 +2,7 @@ import { useState } from "react";
 
 import { useDrop } from "react-dnd";
 
-import { v4 as uuidv4 } from "uuid";
-
-import {
-  useChangeTodosMutation,
-  useGetAllTodosQuery,
-} from "../store/api/apiSlice";
-
-function Coluna({ children, className, titulo }) {
-  const [changeTodos] = useChangeTodosMutation(); // API
-  const { data } = useGetAllTodosQuery(); // API
+function Coluna({ children, className, titulo, handleAddTodo }) {
   const [newDesc, setNewDesc] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -45,21 +36,9 @@ function Coluna({ children, className, titulo }) {
   }
 
   function handleNovoItem() {
-    if (newDesc !== "") {
-      const itemRepetido = data.data[0].item.some((i) => i.desc === newDesc);
-
-      if (!itemRepetido) {
-        const newID = uuidv4();
-        const newItem = { id: newID, desc: newDesc, coluna: titulo };
-        changeTodos([...data.data[0].item, newItem]);
-        setNewDesc("");
-        setOpen(false);
-      } else {
-        alert("Item repetido! Digite outra descrição.");
-      }
-    } else {
-      return;
-    }
+    handleAddTodo(newDesc, titulo);
+    setNewDesc("");
+    setOpen(false);
   }
 
   return (

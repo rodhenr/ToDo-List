@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import { useGetAllTodosQuery } from "./store/api/apiSlice";
+import { useGetTodosQuery, useAddTodoMutation } from "./store/api/apiSlice";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -12,17 +11,35 @@ import Coluna from "./components/Coluna";
 import "./styles/App.scss";
 
 function App() {
-  const { data = [], isSuccess } = useGetAllTodosQuery(); // API
+  const { data = [], isSuccess } = useGetTodosQuery(1);
+  const [addTodo] = useAddTodoMutation();
   const isMobile = window.innerWidth < 600;
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
 
   //Filtra os itens de cada coluna e os exibe
   const exibirItens = (nomeColuna) => {
-    return data.data[0].item
-      .filter((i) => i.coluna === nomeColuna)
+    return data.data
+      .filter((i) => i.task_desc.coluna === nomeColuna)
       .map((item) => (
-        <ItemMovivel key={item.id} id={item.id} desc={item.desc} />
+        <ItemMovivel
+          key={item.task_id}
+          task_id={item.task_id}
+          desc={item.task_desc.task}
+        />
       ));
+  };
+
+  const handleAddTodo = (newDesc, titulo) => {
+    if (newDesc !== "") {
+      const itemRepetido = data.data.some((i) => i.task_desc.task === newDesc);
+      if (itemRepetido) {
+        alert("Item repetido! Digite outra descrição.");
+      } else {
+        addTodo({ task: newDesc, coluna: titulo });
+      }
+    } else {
+      return;
+    }
   };
 
   return (
@@ -35,7 +52,11 @@ function App() {
               backend={isMobile ? TouchBackend : HTML5Backend}
               options={{ enableMouseEvents: true }}
             >
-              <Coluna titulo={FAZER} className="coluna coluna-fazer">
+              <Coluna
+                titulo={FAZER}
+                handleAddTodo={handleAddTodo}
+                className="coluna coluna-fazer"
+              >
                 {exibirItens(FAZER).length > 0 ? (
                   <div className="gap-coluna" data-cy="itens-fazer">
                     {exibirItens(FAZER)}
@@ -46,7 +67,11 @@ function App() {
                   </div>
                 )}
               </Coluna>
-              <Coluna titulo={ANDAMENTO} className="coluna coluna-andamento">
+              <Coluna
+                titulo={ANDAMENTO}
+                handleAddTodo={handleAddTodo}
+                className="coluna coluna-andamento"
+              >
                 {exibirItens(ANDAMENTO).length > 0 ? (
                   <div className="gap-coluna" data-cy="itens-andamento">
                     {exibirItens(ANDAMENTO)}
@@ -57,7 +82,11 @@ function App() {
                   </div>
                 )}
               </Coluna>
-              <Coluna titulo={CONCLUIDO} className="coluna coluna-concluido">
+              <Coluna
+                titulo={CONCLUIDO}
+                handleAddTodo={handleAddTodo}
+                className="coluna coluna-concluido"
+              >
                 {exibirItens(CONCLUIDO).length > 0 ? (
                   <div className="gap-coluna" data-cy="itens-concluido">
                     {exibirItens(CONCLUIDO)}

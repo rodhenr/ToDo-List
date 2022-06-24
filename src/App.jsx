@@ -27,6 +27,7 @@ function App() {
           key={item.task_id}
           task_id={item.task_id}
           desc={item.task_desc.task}
+          coluna={item.task_desc.coluna}
         />
       ));
   };

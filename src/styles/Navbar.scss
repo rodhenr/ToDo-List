@@ -1,0 +1,31 @@
+.navbar-container {
+  align-items: center;
+  background: #472787;
+  box-sizing: border-box;
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.navbar-user {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.navbar-log {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+
+  p {
+    color: #fff;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  svg {
+    color: #fff;
+    font-size: 1.3rem;
+  }
+}

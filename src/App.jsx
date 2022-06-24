@@ -7,6 +7,8 @@ import { NOME_COLUNAS } from "./components/constants";
 
 import ItemMovivel from "./components/Item";
 import Coluna from "./components/Coluna";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import "./styles/App.scss";
 
@@ -45,60 +47,69 @@ function App() {
   return (
     <>
       {isSuccess ? (
-        <div className="container">
-          <h1>TODO LIST</h1>
-          <div className="container-colunas">
-            <DndProvider
-              backend={isMobile ? TouchBackend : HTML5Backend}
-              options={{ enableMouseEvents: true }}
-            >
-              <Coluna
-                titulo={FAZER}
-                handleAddTodo={handleAddTodo}
-                className="coluna coluna-fazer"
+        <div className="main-container">
+          <Navbar />
+          <div className="todos-container">
+            <div className="container-colunas">
+              <DndProvider
+                backend={isMobile ? TouchBackend : HTML5Backend}
+                options={{ enableMouseEvents: true }}
               >
-                {exibirItens(FAZER).length > 0 ? (
-                  <div className="gap-coluna" data-cy="itens-fazer">
-                    {exibirItens(FAZER)}
-                  </div>
-                ) : (
-                  <div className="coluna-sem-item" data-cy="fazer-sem-item">
-                    <p>Sem itens para exibir</p>
-                  </div>
-                )}
-              </Coluna>
-              <Coluna
-                titulo={ANDAMENTO}
-                handleAddTodo={handleAddTodo}
-                className="coluna coluna-andamento"
-              >
-                {exibirItens(ANDAMENTO).length > 0 ? (
-                  <div className="gap-coluna" data-cy="itens-andamento">
-                    {exibirItens(ANDAMENTO)}
-                  </div>
-                ) : (
-                  <div className="coluna-sem-item" data-cy="andamento-sem-item">
-                    <p>Sem itens para exibir</p>
-                  </div>
-                )}
-              </Coluna>
-              <Coluna
-                titulo={CONCLUIDO}
-                handleAddTodo={handleAddTodo}
-                className="coluna coluna-concluido"
-              >
-                {exibirItens(CONCLUIDO).length > 0 ? (
-                  <div className="gap-coluna" data-cy="itens-concluido">
-                    {exibirItens(CONCLUIDO)}
-                  </div>
-                ) : (
-                  <div className="coluna-sem-item" data-cy="concluido-sem-item">
-                    <p>Sem itens para exibir</p>
-                  </div>
-                )}
-              </Coluna>
-            </DndProvider>
+                <Coluna
+                  titulo={FAZER}
+                  handleAddTodo={handleAddTodo}
+                  className="coluna coluna-fazer"
+                >
+                  {exibirItens(FAZER).length > 0 ? (
+                    <div className="gap-coluna" data-cy="itens-fazer">
+                      {exibirItens(FAZER)}
+                    </div>
+                  ) : (
+                    <div className="coluna-sem-item" data-cy="fazer-sem-item">
+                      <p>Sem itens para exibir</p>
+                    </div>
+                  )}
+                </Coluna>
+                <Coluna
+                  titulo={ANDAMENTO}
+                  handleAddTodo={handleAddTodo}
+                  className="coluna coluna-andamento"
+                >
+                  {exibirItens(ANDAMENTO).length > 0 ? (
+                    <div className="gap-coluna" data-cy="itens-andamento">
+                      {exibirItens(ANDAMENTO)}
+                    </div>
+                  ) : (
+                    <div
+                      className="coluna-sem-item"
+                      data-cy="andamento-sem-item"
+                    >
+                      <p>Sem itens para exibir</p>
+                    </div>
+                  )}
+                </Coluna>
+                <Coluna
+                  titulo={CONCLUIDO}
+                  handleAddTodo={handleAddTodo}
+                  className="coluna coluna-concluido"
+                >
+                  {exibirItens(CONCLUIDO).length > 0 ? (
+                    <div className="gap-coluna" data-cy="itens-concluido">
+                      {exibirItens(CONCLUIDO)}
+                    </div>
+                  ) : (
+                    <div
+                      className="coluna-sem-item"
+                      data-cy="concluido-sem-item"
+                    >
+                      <p>Sem itens para exibir</p>
+                    </div>
+                  )}
+                </Coluna>
+              </DndProvider>
+            </div>
           </div>
+          <Footer />
         </div>
       ) : null}
     </>

@@ -1,0 +1,15 @@
+.footer-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+
+  p {
+    color: #fff;
+    font-size: 0.7rem;
+    margin: 0;
+
+    span {
+      color: #cf1919;
+    }
+  }
+}

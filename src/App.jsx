@@ -17,6 +17,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="user" element={<HomeAuth />} />
         </Route>
+        
       </Route>
     </Routes>
   );

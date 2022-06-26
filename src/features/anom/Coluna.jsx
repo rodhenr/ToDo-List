@@ -1,10 +1,13 @@
 import { useState } from "react";
 
+import { useDispatch } from "react-redux";
+
 import { useDrop } from "react-dnd";
 
 function Coluna({ children, className, titulo, handleAddTodo }) {
-  const [newDesc, setNewDesc] = useState("");
+  const [task, setTask] = useState("");
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "item",
@@ -32,12 +35,12 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
 
   function handleChange(e) {
     const value = e.target.value;
-    setNewDesc(value);
+    setTask(value);
   }
 
   function handleNovoItem() {
-    handleAddTodo(newDesc, titulo);
-    setNewDesc("");
+    handleAddTodo(task, titulo);
+    setTask("");
     setOpen(false);
   }
 
@@ -71,7 +74,7 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
               <input
                 type="text"
                 placeholder="Digite aqui"
-                value={newDesc}
+                value={task}
                 onChange={handleChange}
                 data-cy="input-add"
               />

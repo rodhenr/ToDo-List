@@ -7,6 +7,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: "/users",
         method: "GET",
       }),
+      providesTags: ["Todos"],
     }),
     addTodo: builder.mutation({
       query: (item) => ({

@@ -29,19 +29,3 @@
     font-size: 1.3rem;
   }
 }
-
-.navbar-login_modal {
-  background-color: rgb(228, 228, 228);
-  height: 350px;
-  left: 50%;
-  padding: 2rem;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 250px;
-  z-index: 10000000;
-
-  p {
-    margin: 0;
-  }
-}

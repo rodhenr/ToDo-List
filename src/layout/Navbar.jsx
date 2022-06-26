@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,17 +27,19 @@ function Navbar() {
 
       <div className="navbar-login">
         {user ? (
-          <div className="navbar-log out">
-            <p onClick={() => dispatch(login({ login: !loginState }))}>
-              Logout
-            </p>
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </div>
+          <Link to="/">
+            <div className="navbar-log out">
+              <p>Logout</p>
+              <FontAwesomeIcon icon={faRightFromBracket} />
+            </div>
+          </Link>
         ) : (
-          <div className="navbar-log in">
-            <p onClick={() => dispatch(login({ login: !loginState }))}>Login</p>
-            <FontAwesomeIcon icon={faRightToBracket} />
-          </div>
+          <Link to="/login">
+            <div className="navbar-log in">
+              <p>Login</p>
+              <FontAwesomeIcon icon={faRightToBracket} />
+            </div>
+          </Link>
         )}
       </div>
     </div>

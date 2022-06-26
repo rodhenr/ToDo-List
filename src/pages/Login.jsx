@@ -1,34 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { useLoginMutation } from "../features/auth/authApiSlice";
 import { setCredentials } from "../features/auth/authSlice";
-import { login, selectLogin } from "../features/users/userSlice";
+import { login as log, selectLogin } from "../features/users/userSlice";
 
 import "../styles/Login.scss";
 
 function Login() {
-  const [log, { error, isLoading }] = useLoginMutation();
+  const [login, { error, isLoading }] = useLoginMutation();
   const [errMsg, setErrMsg] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const loginState = useSelector(selectLogin);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //unwrap para conseguir usar o try/catch
-
-    const userData = await log({ email, password }).unwrap();
-
-    if (error !== undefined) {
-      setErrMsg("Nome de usuário ou senha inválido");
-    } else {
-      dispatch(setCredentials({ user: email, ...userData }));
+    try {
+      const userData = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...userData, user: email }));
       setEmail("");
       setPassword("");
-      dispatch(login({ login: false }));
+      navigate("/user");
+    } catch (err) {
+      if (!err?.originalStatus) {
+        setErrMsg("No Server Response");
+      } else if (err.originalStatus === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.originalStatus === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
+      }
     }
   };
 
@@ -43,7 +54,7 @@ function Login() {
   return isLoading ? (
     <h1>Carregando...</h1>
   ) : (
-    <div className="navbar-login_modal">
+    <div className="login-container">
       <div className="login_modal_title">
         <p>Login</p>
       </div>
@@ -70,7 +81,9 @@ function Login() {
 
         <button>Login</button>
       </form>
-      {errMsg !== "" && <p>{errMsg}</p>}
+      <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+        {errMsg}
+      </p>
     </div>
   );
 }

@@ -3,12 +3,12 @@ import { useDrag } from "react-dnd";
 import {
   useUpdateTodoMutation,
   useDeleteTodoMutation,
-} from "../features/users/userApiSlice";
+} from "./userApiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import "../styles/Item.scss";
+import "../../styles/Item.scss";
 import { useState } from "react";
 
 function Item({ desc, task_id, coluna }) {

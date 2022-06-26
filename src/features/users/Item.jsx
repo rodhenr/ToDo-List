@@ -1,9 +1,6 @@
 import { useDrag } from "react-dnd";
 
-import {
-  useUpdateTodoMutation,
-  useDeleteTodoMutation,
-} from "./userApiSlice";
+import { useUpdateTodoMutation, useDeleteTodoMutation } from "./userApiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -24,7 +21,10 @@ function Item({ desc, task_id, coluna }) {
       const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
       if (dropResult) {
         const { nomeColuna } = dropResult;
-        updateTodo({ id: task_id, item: { task: desc, coluna: nomeColuna } });
+        updateTodo({
+          task_uuid: task_id,
+          task_desc: { task: desc, coluna: nomeColuna },
+        });
       }
     },
     collect: (monitor) => ({
@@ -41,7 +41,7 @@ function Item({ desc, task_id, coluna }) {
   };
 
   const handleEdit = (id) => {
-    updateTodo({ id, item: { task: editTodo, coluna } });
+    updateTodo({ task_uuid: id, task_desc: { task: editTodo, coluna } });
     setIsEditing(false);
   };
 

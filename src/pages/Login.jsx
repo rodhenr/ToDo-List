@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { selectCurrentToken } from "../features/auth/authSlice";
+
+import { useLocation, Navigate } from "react-router-dom";
 
 import { useLoginMutation } from "../features/auth/authApiSlice";
 import { setCredentials } from "../features/auth/authSlice";
-import { login as log, selectLogin } from "../features/users/userSlice";
 
 import "../styles/Login.scss";
 
@@ -14,8 +16,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const loginState = useSelector(selectLogin);
+
   const navigate = useNavigate();
+  const token = useSelector(selectCurrentToken);
+  const location = useLocation();
 
   useEffect(() => {
     setErrMsg("");
@@ -51,7 +55,9 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  return isLoading ? (
+  return token ? (
+    <Navigate to="/user" state={{ from: location }} replace />
+  ) : isLoading ? (
     <h1>Carregando...</h1>
   ) : (
     <div className="login-container">

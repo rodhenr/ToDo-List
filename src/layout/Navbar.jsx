@@ -6,15 +6,12 @@ import {
   faRightFromBracket,
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
-
-import { login, selectLogin } from "../features/users/userSlice";
-import { selectCurrentUser } from "../features/auth/authSlice";
+import { selectCurrentUser, logOut } from "../features/auth/authSlice";
 
 import "../styles/Navbar.scss";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const loginState = useSelector(selectLogin);
   const user = useSelector(selectCurrentUser);
 
   return (
@@ -27,12 +24,12 @@ function Navbar() {
 
       <div className="navbar-login">
         {user ? (
-          <Link to="/">
+          <div onClick={() => dispatch(logOut())}>
             <div className="navbar-log out">
               <p>Logout</p>
               <FontAwesomeIcon icon={faRightFromBracket} />
             </div>
-          </Link>
+          </div>
         ) : (
           <Link to="/login">
             <div className="navbar-log in">

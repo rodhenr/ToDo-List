@@ -21,17 +21,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: "/users",
         method: "PATCH",
-        body: {
-          data,
-        },
+        body: data,
       }),
       invalidatesTags: ["Todos"],
     }),
     deleteTodo: builder.mutation({
       query: (id) => ({
-        url: "/",
+        url: "/users",
         method: "DELETE",
-        params: { id },
+        query: { task_uuid: id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Todos", id: arg.id }],
     }),

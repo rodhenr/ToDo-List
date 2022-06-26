@@ -1,26 +1,33 @@
-import { useGetTodosQuery, useAddTodoMutation } from "./store/api/apiSlice";
+import {
+  useGetTodosQuery,
+  useAddTodoMutation,
+} from "./features/users/userApiSlice";
 
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { NOME_COLUNAS } from "./components/constants";
 
+import { selectLogin } from "./features/users/userSlice";
+import { useSelector } from "react-redux";
+
 import ItemMovivel from "./components/Item";
 import Coluna from "./components/Coluna";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 
 import "./styles/App.scss";
 
 function App() {
-  const { data = [], isSuccess } = useGetTodosQuery(1);
-  const [addTodo] = useAddTodoMutation();
   const isMobile = window.innerWidth < 600;
   const { FAZER, ANDAMENTO, CONCLUIDO } = NOME_COLUNAS;
+  const login = useSelector(selectLogin);
+  const { data = [], isSuccess } = useGetTodosQuery();
 
   //Filtra os itens de cada coluna e os exibe
   const exibirItens = (nomeColuna) => {
-    return data.data
+    return data
       .filter((i) => i.task_desc.coluna === nomeColuna)
       .map((item) => (
         <ItemMovivel
@@ -38,7 +45,6 @@ function App() {
       if (itemRepetido) {
         alert("Item repetido! Digite outra descrição.");
       } else {
-        addTodo({ task: newDesc, coluna: titulo });
       }
     } else {
       return;
@@ -49,6 +55,7 @@ function App() {
     <>
       {isSuccess ? (
         <div className="main-container">
+          {login && <Login />}
           <Navbar />
           <div className="todos-container">
             <div className="container-colunas">

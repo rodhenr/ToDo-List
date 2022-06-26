@@ -1,24 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiSlice } from "../../app/api/apiSlice";
 
-export const apiSlice = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
-  tagTypes: ["Todos", "Update"],
+export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTodos: builder.query({
-      query: (id) => ({
-        url: "/",
+      query: () => ({
+        url: "/users",
         method: "GET",
-        params: { id },
       }),
-      providesTags: (result, error, arg) =>
-        result
-          ? [...result.data.map(({ id }) => ({ type: "Todos", id })), "Todos"]
-          : ["Todos"],
     }),
     addTodo: builder.mutation({
       query: (item) => ({
-        url: "/",
+        url: "/users",
         method: "POST",
         body: item,
       }),
@@ -26,7 +18,7 @@ export const apiSlice = createApi({
     }),
     updateTodo: builder.mutation({
       query: (data) => ({
-        url: "/",
+        url: "/users",
         method: "PATCH",
         body: {
           data,
@@ -50,4 +42,4 @@ export const {
   useAddTodoMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation,
-} = apiSlice;
+} = usersApiSlice;

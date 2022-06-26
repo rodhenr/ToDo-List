@@ -3,7 +3,7 @@ import { useDrag } from "react-dnd";
 import {
   useUpdateTodoMutation,
   useDeleteTodoMutation,
-} from "../store/api/apiSlice";
+} from "../features/users/userApiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";

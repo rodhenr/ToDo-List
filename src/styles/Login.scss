@@ -1,0 +1,51 @@
+.login_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.login_modal_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  label {
+    font-size: 0.8rem;
+  }
+}
+
+.modal_input {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    background-color: rgb(228, 228, 228);
+    border: none;
+    border-bottom: 1px solid black;
+
+    &:focus {
+      background-color: #ffffff;
+      color: rgb(228, 228, 228);
+    }
+  }
+}
+
+.login_modal_title {
+  display: flex;
+  font-size: 1.5rem;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+}
+
+.login_modal_button {
+  display: flex;
+  justify-content: center;
+
+  button {
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    width: 80%;
+  }
+}

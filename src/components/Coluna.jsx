@@ -53,7 +53,11 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
           <div className="desc-info">
             <span>{titulo}</span>
             <span>|</span>
-            <span>{children.length}</span>
+            <span>
+              {children.props.children.length > 0
+                ? children.props.children.length
+                : 0}
+            </span>
           </div>
           <div className="desc-novo">
             <span onClick={handleOpen} data-cy="novo-item">

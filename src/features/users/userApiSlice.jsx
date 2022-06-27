@@ -29,7 +29,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: "/users",
         method: "DELETE",
-        query: { task_uuid: id },
+        params: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Todos", id: arg.id }],
     }),

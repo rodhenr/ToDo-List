@@ -1,6 +1,7 @@
 import {
   useGetTodosQuery,
   useAddTodoMutation,
+  useUpdateTodoMutation,
 } from "../features/users/userApiSlice";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -13,6 +14,7 @@ import "../styles/App.scss";
 function HomeAuth() {
   const { data = [], isSuccess } = useGetTodosQuery();
   const [addTodo] = useAddTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
   const isMobile = window.innerWidth < 600;
 
   const options = [
@@ -31,6 +33,7 @@ function HomeAuth() {
           task_id={item.task_uuid}
           desc={item.task_desc.task}
           coluna={item.task_desc.coluna}
+          handleEditTodo={handleEditTodo}
         />
       ));
   };
@@ -40,6 +43,14 @@ function HomeAuth() {
       alert("Item repetido! Digite outra descrição.");
     } else {
       addTodo({ item: { task, coluna } });
+    }
+  };
+
+  const handleEditTodo = (id, task, coluna) => {
+    if (task === "" || data.data.some((i) => i.task_desc.task === task)) {
+      alert("Item repetido! Digite outra descrição.");
+    } else {
+      updateTodo({ task_uuid: id, task_desc: { task, coluna } });
     }
   };
 

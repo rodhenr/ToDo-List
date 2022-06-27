@@ -4,6 +4,7 @@ import Layout from "./layout/index";
 import Home from "./pages/Home";
 import HomeAuth from "./pages/HomeAuth";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import CheckToken from './layout/CheckToken'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route element={<CheckToken />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
 
         {/* Protected routes*/}

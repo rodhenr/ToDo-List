@@ -8,11 +8,11 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Item.scss";
 import { useState } from "react";
 
-function Item({ desc, task_id, coluna }) {
-  const [editTodo, setEditTodo] = useState(desc);
+function Item({ desc, task_id, coluna, handleEditTodo }) {
+  const [updateTodo] = useUpdateTodoMutation();
+  const [task, setTask] = useState(desc);
   const [isEditing, setIsEditing] = useState(false);
-  const [updateTodo] = useUpdateTodoMutation(); // API
-  const [deleteTodo] = useDeleteTodoMutation(); // API
+  const [deleteTodo] = useDeleteTodoMutation();
 
   const [{ isDragging }, drag] = useDrag({
     type: "item",
@@ -41,7 +41,7 @@ function Item({ desc, task_id, coluna }) {
   };
 
   const handleEdit = (id) => {
-    updateTodo({ task_uuid: id, task_desc: { task: editTodo, coluna } });
+    handleEditTodo(id, task, coluna);
     setIsEditing(false);
   };
 
@@ -56,8 +56,8 @@ function Item({ desc, task_id, coluna }) {
           <div className="item-desc_input">
             <input
               type="text"
-              value={editTodo}
-              onChange={(e) => setEditTodo(e.target.value)}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
             />
             <button
               onClick={() => {

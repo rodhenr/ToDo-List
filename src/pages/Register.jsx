@@ -1,80 +1,102 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectCurrentToken } from "../features/auth/authSlice";
 
 import { useLocation, Navigate } from "react-router-dom";
 
-import { useLoginMutation } from "../features/auth/authApiSlice";
-import { setCredentials } from "../features/auth/authSlice";
+import { useRegisterMutation } from "../features/auth/authApiSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faKey, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/Login.scss";
 
 function Login() {
-  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
   const [errMsg, setErrMsg] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [registerInfo, setRegisterInfo] = useState({
+    username: "",
+    password: "",
+    email: "",
+  });
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const token = useSelector(selectCurrentToken);
   const location = useLocation();
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [username, password]);
-
-  const handleLoginSubmit = async (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const userData = await login({ username, password }).unwrap();
-      dispatch(setCredentials({ ...userData, user: username }));
-      setUsername("");
-      setPassword("");
-      navigate("/user");
+      await register({
+        username: registerInfo.username,
+        password: registerInfo.password,
+        email: registerInfo.email,
+      }).unwrap();
+      setRegisterInfo({
+        username: "",
+        password: "",
+        email: "",
+      });
+      navigate("/login");
     } catch (err) {
       if (!err.status) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.status === 400) {
-        setErrMsg("Falha no login!");
+        setErrMsg("Falha no registro!");
       } else if (err.status === 401) {
-        setErrMsg("Usuário ou senha inválido!");
+        setErrMsg("Dados incorretos!");
       } else {
         setErrMsg("Falha no login!");
       }
     }
   };
 
-  const handleUsernameInput = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordInput = (e) => {
-    setPassword(e.target.value);
+  const handleRegisterInfo = (e) => {
+    const name = e.target.name;
+    const target = e.target.value;
+    setRegisterInfo((prev) => ({
+      ...prev,
+      [name]: target,
+    }));
   };
 
   const content = (
     <div className="login-container">
-      <h2 className="login-title">LOGIN</h2>
+      <h2 className="login-title">REGISTRE-SE</h2>
       <div className={errMsg ? "login-error err-visible" : "login-error"}>
         {errMsg !== "" && <p>{errMsg}</p>}
       </div>
-      <form onSubmit={handleLoginSubmit} className="form-container">
+      <form onSubmit={handleRegisterSubmit} className="form-container">
+        <div className="form-data">
+          <div className="form-square">
+            <FontAwesomeIcon icon={faEnvelope} />
+          </div>
+          <input
+            id="email"
+            name="email"
+            onChange={handleRegisterInfo}
+            placeholder="E-mail"
+            required
+            type="email"
+            value={registerInfo.email}
+          />
+        </div>
+
         <div className="form-data">
           <div className="form-square">
             <FontAwesomeIcon icon={faUser} />
           </div>
           <input
             id="username"
-            onChange={handleUsernameInput}
+            name="username"
+            onChange={handleRegisterInfo}
             placeholder="Usuário"
             required
             type="text"
-            value={username}
+            value={registerInfo.username}
           />
         </div>
 
@@ -84,19 +106,21 @@ function Login() {
           </div>
           <input
             id="password"
-            onChange={handlePasswordInput}
+            name="password"
+            onChange={handleRegisterInfo}
             placeholder="Senha"
             required
             type="password"
-            value={password}
+            value={registerInfo.password}
           />
         </div>
 
-        <button>ENTRAR</button>
+        <button>REGISTRAR</button>
       </form>
 
       <p className="login-register">
-        Não tem uma conta? <span onClick={() => navigate("/register")}>Registre-se!</span>
+        Já tem uma conta?{" "}
+        <span onClick={() => navigate("/login")}>Faça login!</span>
       </p>
     </div>
   );

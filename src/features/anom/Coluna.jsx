@@ -1,13 +1,12 @@
 import { useState } from "react";
 
-import { useDispatch } from "react-redux";
-
 import { useDrop } from "react-dnd";
+
+import "../../styles/Coluna.scss";
 
 function Coluna({ children, className, titulo, handleAddTodo }) {
   const [task, setTask] = useState("");
   const [open, setOpen] = useState(false);
-  const dispatch = useDispatch();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "item",
@@ -51,9 +50,9 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
       style={{ backgroundColor: getBackgroundColor() }}
       data-cy="coluna"
     >
-      <div className="coluna-desc">
-        <div className="desc">
-          <div className="desc-info">
+      <div className="coluna-header">
+        <div className="coluna-header_container">
+          <div className="coluna-header_info">
             <span>{titulo}</span>
             <span>|</span>
             <span>
@@ -62,7 +61,7 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
                 : 0}
             </span>
           </div>
-          <div className="desc-novo">
+          <div className="coluna-header_novo">
             <span onClick={handleOpen} data-cy="novo-item">
               {open ? "-" : "+"}
             </span>

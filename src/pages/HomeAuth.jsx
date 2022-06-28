@@ -9,7 +9,8 @@ import { TouchBackend } from "react-dnd-touch-backend";
 
 import Item from "../features/users/Item";
 import Coluna from "../features/users/Coluna";
-import "../styles/App.scss";
+
+import "../styles/Home.scss";
 
 function HomeAuth() {
   const { data = [], isSuccess } = useGetTodosQuery();
@@ -23,17 +24,16 @@ function HomeAuth() {
     { coluna: "Concluído", short: "concluido" },
   ];
 
-  //Filtra os itens de cada coluna e os exibe
   const exibirItens = (nomeColuna) => {
     return data.data
       .filter((i) => i.task_desc.coluna === nomeColuna)
       .map((item) => (
         <Item
+          coluna={item.task_desc.coluna}
+          desc={item.task_desc.task}
+          handleEditTodo={handleEditTodo}
           key={item.task_uuid}
           task_id={item.task_uuid}
-          desc={item.task_desc.task}
-          coluna={item.task_desc.coluna}
-          handleEditTodo={handleEditTodo}
         />
       ));
   };
@@ -55,110 +55,43 @@ function HomeAuth() {
   };
 
   return (
-    <>
-      {isSuccess ? (
-        <div className="todos-container">
-          <div className="container-colunas">
-            <DndProvider
-              backend={isMobile ? TouchBackend : HTML5Backend}
-              options={{ enableMouseEvents: true }}
-            >
-              {options.map((coluna, index) => (
-                <div key={index}>
-                  <Coluna
-                    titulo={coluna.coluna}
-                    handleAddTodo={handleAddTodo}
-                    className={`coluna coluna-${coluna.short}`}
-                  >
-                    {exibirItens(coluna.coluna).length > 0 ? (
-                      <div
-                        className="gap-coluna"
-                        data-cy={`itens-${coluna.short}`}
-                      >
-                        {exibirItens(coluna.coluna)}
-                      </div>
-                    ) : (
-                      <div
-                        className="coluna-sem-item"
-                        data-cy={`${coluna.short}-sem-item`}
-                      >
-                        <p>Sem itens para exibir</p>
-                      </div>
-                    )}
-                  </Coluna>
-                </div>
-              ))}
-            </DndProvider>
-          </div>
+    isSuccess && (
+      <main className="home">
+        <div className="home-colunas">
+          <DndProvider
+            backend={isMobile ? TouchBackend : HTML5Backend}
+            options={{ enableMouseEvents: true }}
+          >
+            {options.map((coluna, index) => (
+              <section key={index}>
+                <Coluna
+                  titulo={coluna.coluna}
+                  handleAddTodo={handleAddTodo}
+                  className={`coluna coluna-${coluna.short}`}
+                >
+                  {exibirItens(coluna.coluna).length > 0 ? (
+                    <div
+                      className="coluna-itens"
+                      data-cy={`itens-${coluna.short}`}
+                    >
+                      {exibirItens(coluna.coluna)}
+                    </div>
+                  ) : (
+                    <div
+                      className="coluna-sem-item"
+                      data-cy={`${coluna.short}-sem-item`}
+                    >
+                      <p>Sem itens para exibir</p>
+                    </div>
+                  )}
+                </Coluna>
+              </section>
+            ))}
+          </DndProvider>
         </div>
-      ) : null}
-    </>
+      </main>
+    )
   );
 }
 
 export default HomeAuth;
-
-/*
-        <div className="main-container">
-          <div className="todos-container">
-            <div className="container-colunas">
-              <DndProvider
-                backend={isMobile ? TouchBackend : HTML5Backend}
-                options={{ enableMouseEvents: true }}
-              >
-                <Coluna
-                  titulo={FAZER}
-                  handleAddTodo={handleAddTodo}
-                  className="coluna coluna-fazer"
-                >
-                  {exibirItens(FAZER).length > 0 ? (
-                    <div className="gap-coluna" data-cy="itens-fazer">
-                      {exibirItens(FAZER)}
-                    </div>
-                  ) : (
-                    <div className="coluna-sem-item" data-cy="fazer-sem-item">
-                      <p>Sem itens para exibir</p>
-                    </div>
-                  )}
-                </Coluna>
-                <Coluna
-                  titulo={ANDAMENTO}
-                  handleAddTodo={handleAddTodo}
-                  className="coluna coluna-andamento"
-                >
-                  {exibirItens(ANDAMENTO).length > 0 ? (
-                    <div className="gap-coluna" data-cy="itens-andamento">
-                      {exibirItens(ANDAMENTO)}
-                    </div>
-                  ) : (
-                    <div
-                      className="coluna-sem-item"
-                      data-cy="andamento-sem-item"
-                    >
-                      <p>Sem itens para exibir</p>
-                    </div>
-                  )}
-                </Coluna>
-                <Coluna
-                  titulo={CONCLUIDO}
-                  handleAddTodo={handleAddTodo}
-                  className="coluna coluna-concluido"
-                >
-                  {exibirItens(CONCLUIDO).length > 0 ? (
-                    <div className="gap-coluna" data-cy="itens-concluido">
-                      {exibirItens(CONCLUIDO)}
-                    </div>
-                  ) : (
-                    <div
-                      className="coluna-sem-item"
-                      data-cy="concluido-sem-item"
-                    >
-                      <p>Sem itens para exibir</p>
-                    </div>
-                  )}
-                </Coluna>
-              </DndProvider>
-            </div>
-          </div>
-        </div>
-*/

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { useDrag } from "react-dnd";
 
 import { useUpdateTodoMutation, useDeleteTodoMutation } from "./userApiSlice";
@@ -6,19 +8,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/Item.scss";
-import { useState } from "react";
 
 function Item({ desc, task_id, coluna, handleEditTodo }) {
   const [updateTodo] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
   const [task, setTask] = useState(desc);
   const [isEditing, setIsEditing] = useState(false);
-  const [deleteTodo] = useDeleteTodoMutation();
-
   const [{ isDragging }, drag] = useDrag({
     type: "item",
     item: { task_id },
     end: (item, monitor) => {
-      const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
+      const dropResult = monitor.getDropResult();
       if (dropResult) {
         const { nomeColuna } = dropResult;
         updateTodo({
@@ -32,11 +32,11 @@ function Item({ desc, task_id, coluna, handleEditTodo }) {
     }),
   });
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, task) => {
     if (isEditing) {
       return;
     } else {
-      deleteTodo(id);
+      deleteTodo(id, task);
     }
   };
 
@@ -48,7 +48,7 @@ function Item({ desc, task_id, coluna, handleEditTodo }) {
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div ref={drag} className="item" style={{ opacity }} data-cy="item">
+    <div ref={drag} className="item-container" style={{ opacity }} data-cy="item">
       <div className="item-circle"></div>
 
       <div className="item-desc">
@@ -76,7 +76,7 @@ function Item({ desc, task_id, coluna, handleEditTodo }) {
         <span onClick={() => setIsEditing(!isEditing)}>
           <FontAwesomeIcon icon={faPencil} />
         </span>
-        <span onClick={() => handleDelete(task_id)} data-cy="excluir-item">
+        <span onClick={() => handleDelete(task_id, task)} data-cy="excluir-item">
           <FontAwesomeIcon icon={faTrash} />
         </span>
       </div>

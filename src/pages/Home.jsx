@@ -15,7 +15,7 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import Item from "../features/anom/Item";
 import Coluna from "../features/anom/Coluna";
 
-import "../styles/App.scss";
+import "../styles/Home.scss";
 
 function Home() {
   const data = useSelector(getTodos);
@@ -38,28 +38,32 @@ function Home() {
       .filter((i) => i.task_desc.coluna === nomeColuna)
       .map((item) => (
         <Item
-          key={item.task_id}
-          task_id={item.task_id}
-          task={item.task_desc.task}
           coluna={item.task_desc.coluna}
+          desc={item.task_desc.task}
           handleUpdateTodo={handleUpdateTodo}
           handleDeleteTodo={handleDeleteTodo}
+          key={item.task_id}
+          task_id={item.task_id}
         />
       ));
   };
 
-  const handleAddTodo = (newTask, titulo) => {
-    if (newTask !== "" && data.some((i) => i.task_desc.task === newTask)) {
+  const handleAddTodo = (task, titulo) => {
+    if (task !== "" && data.some((i) => i.task_desc.task === task)) {
       alert("Item repetido! Digite outra descrição.");
     } else {
       const task_id = uuidv4();
-      const newItem = { task_id, task_desc: { task: newTask, coluna: titulo } };
+      const newItem = { task_id, task_desc: { task, coluna: titulo } };
       dispatch(addTodo(newItem));
     }
   };
 
   const handleUpdateTodo = (task_id, task_desc) => {
-    dispatch(updateTodo({ task_id, task_desc }));
+    if (task !== "" && data.some((i) => i.task_desc.task === task)) {
+      alert("Item repetido! Digite outra descrição.");
+    } else {
+      dispatch(updateTodo({ task_id, task_desc }));
+    }
   };
 
   const handleDeleteTodo = (task_id) => {
@@ -67,42 +71,40 @@ function Home() {
   };
 
   return (
-    <div className="main-container">
-      <div className="todos-container">
-        <div className="container-colunas">
-          <DndProvider
-            backend={isMobile ? TouchBackend : HTML5Backend}
-            options={{ enableMouseEvents: true }}
-          >
-            {options.map((coluna, index) => (
-              <div key={index}>
-                <Coluna
-                  titulo={coluna.coluna}
-                  handleAddTodo={handleAddTodo}
-                  className={`coluna coluna-${coluna.short}`}
-                >
-                  {coluna.itens.length > 0 ? (
-                    <div
-                      className="gap-coluna"
-                      data-cy={`itens-${coluna.short}`}
-                    >
-                      {exibirItens(coluna.coluna)}
-                    </div>
-                  ) : (
-                    <div
-                      className="coluna-sem-item"
-                      data-cy={`${coluna.short}-sem-item`}
-                    >
-                      <p>Sem itens para exibir</p>
-                    </div>
-                  )}
-                </Coluna>
-              </div>
-            ))}
-          </DndProvider>
-        </div>
+    <main className="home">
+      <div className="home-colunas">
+        <DndProvider
+          backend={isMobile ? TouchBackend : HTML5Backend}
+          options={{ enableMouseEvents: true }}
+        >
+          {options.map((coluna, index) => (
+            <section key={index}>
+              <Coluna
+                titulo={coluna.coluna}
+                handleAddTodo={handleAddTodo}
+                className={`coluna coluna-${coluna.short}`}
+              >
+                {coluna.itens.length > 0 ? (
+                  <div
+                    className="coluna-itens"
+                    data-cy={`itens-${coluna.short}`}
+                  >
+                    {exibirItens(coluna.coluna)}
+                  </div>
+                ) : (
+                  <div
+                    className="coluna-sem-item"
+                    data-cy={`${coluna.short}-sem-item`}
+                  >
+                    <p>Sem itens para exibir</p>
+                  </div>
+                )}
+              </Coluna>
+            </section>
+          ))}
+        </DndProvider>
       </div>
-    </div>
+    </main>
   );
 }
 

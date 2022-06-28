@@ -4,7 +4,10 @@ function Footer() {
   return (
     <footer className="footer-container">
       <p>
-        Desenvolvido por <span>Rodrigo Henrique</span>
+        Desenvolvido por{" "}
+        <span>
+          <a href="https://github.com/rodhenr">Rodrigo Henrique</a>
+        </span>
       </p>
     </footer>
   );

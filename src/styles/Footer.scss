@@ -7,8 +7,16 @@
     color: #fff;
     font-size: 0.7rem;
     margin: 0;
+  }
 
-    span {
+  span {
+    color: #cf1919;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:visited {
       color: #cf1919;
     }
   }

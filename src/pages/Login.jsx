@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { selectCurrentToken } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
-import { useLocation, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { useLoginMutation } from "../features/auth/authApiSlice";
 import { setCredentials } from "../features/auth/authSlice";
@@ -11,7 +9,7 @@ import { setCredentials } from "../features/auth/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 
-import "../styles/Login.scss";
+import "../styles/Auth.scss";
 
 function Login() {
   const [login] = useLoginMutation();
@@ -20,8 +18,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector(selectCurrentToken);
-  const location = useLocation();
 
   useEffect(() => {
     setErrMsg("");
@@ -57,54 +53,66 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  const content = (
-    <div className="login-container">
-      <h2 className="login-title">LOGIN</h2>
-      <div className={errMsg ? "login-error err-visible" : "login-error"}>
-        {errMsg !== "" && <p>{errMsg}</p>}
+  return (
+    <div className="auth-container">
+      <h2 className="auth-title">LOGIN</h2>
+      <div className="auth-main">
+        <div
+          className={errMsg ? "auth-error err-visible" : "auth-error"}
+          role="alert"
+        >
+          {errMsg !== "" && <p>{errMsg}</p>}
+        </div>
+        <form onSubmit={handleLoginSubmit} className="form-container">
+          <div className="form-data">
+            <label htmlFor="username">
+              <div className="form-square">
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+            </label>
+            <input
+              aria-label="username"
+              aria-required="true"
+              id="username"
+              onChange={handleUsernameInput}
+              placeholder="Usuário"
+              required
+              type="text"
+              value={username}
+            />
+          </div>
+
+          <div className="form-data">
+            <label htmlFor="password">
+              <div className="form-square">
+                <FontAwesomeIcon icon={faKey} />
+              </div>
+            </label>
+            <input
+              aria-label="password"
+              aria-required="true"
+              id="password"
+              onChange={handlePasswordInput}
+              placeholder="Senha"
+              required
+              type="password"
+              value={password}
+            />
+          </div>
+
+          <button>ENTRAR</button>
+        </form>
+
+        <p className="auth-register">
+          Não tem uma conta?{" "}
+          <span onClick={() => navigate("/register")}>Registre-se!</span>
+        </p>
       </div>
-      <form onSubmit={handleLoginSubmit} className="form-container">
-        <div className="form-data">
-          <div className="form-square">
-            <FontAwesomeIcon icon={faUser} />
-          </div>
-          <input
-            id="username"
-            onChange={handleUsernameInput}
-            placeholder="Usuário"
-            required
-            type="text"
-            value={username}
-          />
-        </div>
-
-        <div className="form-data">
-          <div className="form-square">
-            <FontAwesomeIcon icon={faKey} />
-          </div>
-          <input
-            id="password"
-            onChange={handlePasswordInput}
-            placeholder="Senha"
-            required
-            type="password"
-            value={password}
-          />
-        </div>
-
-        <button>ENTRAR</button>
-      </form>
-
-      <p className="login-register">
-        Não tem uma conta? <span onClick={() => navigate("/register")}>Registre-se!</span>
+      <p className="auth-remote">
+        Lista local sem login? Clique{" "}
+        <span onClick={() => navigate("/")}>aqui!</span>
       </p>
     </div>
-  );
-
-  return token ? (
-    <Navigate to="/user" state={{ from: location }} replace />
-  ) : (
-    content
   );
 }
 

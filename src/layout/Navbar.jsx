@@ -26,14 +26,14 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar-container">
+    <header className="navbar-container">
       {user ? (
         <p className="navbar-user">Olá {user.toUpperCase()}</p>
       ) : (
         <div></div>
       )}
 
-      <div className="navbar-login">
+      <nav className="navbar-login">
         {token ? (
           <div onClick={handleLogout}>
             <div className="navbar-log out">
@@ -49,8 +49,8 @@ function Navbar() {
             </div>
           </Link>
         )}
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }
 

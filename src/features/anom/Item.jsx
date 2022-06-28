@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { useDispatch } from "react-redux";
+import { deleteTodo, updateTodo } from "./anomSlice";
+
 import { useDrag } from "react-dnd";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,9 +10,10 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/Item.scss";
 
-function Item({ task, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
-  const [editTodo, setEditTodo] = useState(task);
+function Item({ desc, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
+  const [task, setTask] = useState(desc);
   const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useDispatch();
 
   const [{ isDragging }, drag] = useDrag({
     type: "item",
@@ -18,7 +22,9 @@ function Item({ task, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
       const dropResult = monitor.getDropResult(); // Objeto contendo o local aonde foi dropado o item
       if (dropResult) {
         const { nomeColuna } = dropResult;
-        handleUpdateTodo(task_id, { task, coluna: nomeColuna });
+        dispatch(
+          updateTodo({ task_id, task_desc: { task, coluna: nomeColuna } })
+        );
       }
     },
     collect: (monitor) => ({
@@ -35,14 +41,14 @@ function Item({ task, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
   };
 
   const handleEdit = (task_id) => {
-    handleUpdateTodo(task_id, { task: editTodo, coluna });
+    handleUpdateTodo(task_id, { task: task, coluna });
     setIsEditing(false);
   };
 
   const opacity = isDragging ? 0.4 : 1;
 
   return (
-    <div ref={drag} className="item" style={{ opacity }} data-cy="item">
+    <div ref={drag} className="item-container" style={{ opacity }} data-cy="item">
       <div className="item-circle"></div>
 
       <div className="item-desc">
@@ -50,8 +56,8 @@ function Item({ task, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
           <div className="item-desc_input">
             <input
               type="text"
-              value={editTodo}
-              onChange={(e) => setEditTodo(e.target.value)}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
             />
             <button
               onClick={() => {
@@ -65,7 +71,6 @@ function Item({ task, task_id, coluna, handleUpdateTodo, handleDeleteTodo }) {
           task
         )}
       </div>
-
       <div className="item-change">
         <span onClick={() => setIsEditing(!isEditing)}>
           <FontAwesomeIcon icon={faPencil} />

@@ -2,15 +2,16 @@ import { useState } from "react";
 
 import { useDrop } from "react-dnd";
 
+import '../../styles/Coluna.scss'
+
 function Coluna({ children, className, titulo, handleAddTodo }) {
   const [task, setTask] = useState("");
   const [open, setOpen] = useState(false);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "item",
-    drop: () => ({ nomeColuna: titulo }), // Quando o item é dropado no alvo, esse objeto vira o resultado do getDropResult no end do useDrag
+    drop: () => ({ nomeColuna: titulo }),
     collect: (monitor) => ({
-      // Usado para mudar a cor do background da coluna caso ela esteja sendo o alvo do drag
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
@@ -48,9 +49,9 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
       style={{ backgroundColor: getBackgroundColor() }}
       data-cy="coluna"
     >
-      <div className="coluna-desc">
-        <div className="desc">
-          <div className="desc-info">
+      <div className="coluna-header">
+        <div className="coluna-header_container">
+          <div className="coluna-header_info">
             <span>{titulo}</span>
             <span>|</span>
             <span>
@@ -59,7 +60,7 @@ function Coluna({ children, className, titulo, handleAddTodo }) {
                 : 0}
             </span>
           </div>
-          <div className="desc-novo">
+          <div className="coluna-header_novo">
             <span onClick={handleOpen} data-cy="novo-item">
               {open ? "-" : "+"}
             </span>

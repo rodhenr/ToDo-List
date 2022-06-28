@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials, logOut } from "../../features/auth/authSlice";
 
-// Query básica com headers
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:8080",
   credentials: "include",
@@ -14,9 +13,6 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Modificação para dar refresh no token, consta na documentação oficial
-// Caso o status do result seja 403, será feito um refresh no token
-// Caso o status do result seja diferente de 403, a query retorna o resultado
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 

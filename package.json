@@ -12,7 +12,6 @@
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/react-redux": "^7.1.24",
-    "axios": "^0.27.2",
     "eslint": "^8.18.0",
     "prettier": "^2.7.1",
     "react": "^18.1.0",
@@ -27,7 +26,6 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "sass": "^1.51.0",
-    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

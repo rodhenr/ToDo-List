@@ -42,7 +42,7 @@ Para replicar esse projeto de forma local no seu computador siga os passos abaix
 ### Node + MySQL
 Caso queira também rodar a parte do servidor e banco de dados na sua máquina, siga os passos adicionais:
 * Você deve possuir o MySQL instalado na sua máquina (neste projeto utilizei a versão 8.0).
-* Você deve fazer o download/clone do repositório *[Backend](https://github.com/rodhenr/Backend-ToDo-List)* e o abrir em uma nova janela na sua IDE.
+* Você deve fazer o download/clone do [Repositório](https://github.com/rodhenr/Backend-ToDo-List) e o abrir em uma nova janela na sua IDE.
 ```
 1. Crie uma nova database no seu MySQL com o comando "CREATE DATABASE nomedatabase;"
 2. Execute o comando npm i para instalar as dependências do projeto

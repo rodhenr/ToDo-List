@@ -1,11 +1,11 @@
-## Descrição do Projeto :ledger:
+## :ledger: Descrição do Projeto
 Essa é uma aplicação de lista de tarefas, onde você pode arrastar os itens entre 3 categorias diferentes. Ela possui duas de funcionamento:
 
 - A primeira delas é no modo anônimo onde não requer um cadastro e as informações são salvas pelo redux e persistidas caso aconteça um refresh na página.
 
 - A segunda forma funciona utilizando **MySQL** e o **Node.js** juntamente com o front-end. Com este método é possível realizar cadastros de usuários e fazer login para que cada usuário salve suas informações na database.
 
-## Tecnologias :man_technologist:
+## :man_technologist: Tecnologias
 
 Para este projeto foram utilizadas as seguintes tecnologias:
 
@@ -29,7 +29,7 @@ Para este projeto foram utilizadas as seguintes tecnologias:
 - [UUID](https://www.uuidgenerator.net/)
 - [Dotenv](https://www.npmjs.com/package/dotenv)
 
-## Como replicar este projeto :dvd:
+## :dvd: Como replicar este projeto
 ### Front-End
 Para replicar esse projeto no seu computador siga os passos abaixo:
 
@@ -45,11 +45,12 @@ Caso queira também rodar a parte do servidor e banco de dados na sua máquina, 
 1. Você deve possuir o MySQL instalado na sua máquina (neste projeto utilizei a versão 8.0).
 2. Faça o download/clone do repositório **[Backend-ToDo-List](https://github.com/rodhenr/Backend-ToDo-List)** e abra-o em uma nova janela no seu IDE.
 3. Execute o comando *npm i* para instalar as dependências do projeto.
-4. No arquivo *.env* altere as informações de acordo com sua necessidade **(lembrando que arquivos .env podem possuir informações sensíveis e caso você queira subir seu projeto para o github é aconselhável que o .env seja acrescentado no seu arquivo .gitignore)**.
-5. Execute o comando *npm run dev* para rodar o servidor localmente utilizando o nodemon na porta especificada no *.env* ou por padrão na porta *8080*.
+4. Crie uma nova database no seu MySQL com o comando "CREATE DATABASE nomedatabase;"
+5. No arquivo *.env* altere as informações de acordo com as suas configurações **(lembrando que arquivos .env podem possuir informações sensíveis e caso você queira subir seu projeto para o github é aconselhável que o .env seja acrescentado no seu arquivo .gitignore)**.
+6. Execute o comando *npm run dev* para rodar o servidor localmente utilizando o nodemon na porta especificada no *.env* ou por padrão na porta *8080*.
 
-## Dúvidas ou sugestões? :grin:
+## :grin: Dúvidas ou sugestões?
 Caso tenha alguma dúvida ou alguma sugestão fico no aguardo da sua mensagem!
 
-## Live Demo :computer:
+## :computer: Live Demo
 Para visualizar uma versão de demonstração do site clique [aqui](https://rodhenr.github.io/ToDo-List/).

@@ -12,12 +12,18 @@ import "../styles/Auth.scss";
 function Login() {
   const [register] = useRegisterMutation();
   const [errMsg, setErrMsg] = useState("");
+  const [okMsg, setOkMsg] = useState("");
   const [registerInfo, setRegisterInfo] = useState({
     username: "",
     password: "",
     email: "",
   });
   const navigate = useNavigate();
+
+  const navigateLogin = () => {
+    setOkMsg("")
+    navigate("/login");
+  };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
@@ -33,12 +39,15 @@ function Login() {
         password: "",
         email: "",
       });
-      navigate("/login");
+      setOkMsg("Usuário cadastrado com sucesso!");
+      setTimeout(navigateLogin, 2000);
     } catch (err) {
       if (!err.status) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.status === 409) {
-        setErrMsg("Usuário já cadastrado!");
+        setErrMsg("Usuário/email já cadastrado!");
+      } else if (err.status === 400) {
+        setErrMsg("Informações inválidas!");
       } else {
         setErrMsg("Falha no registro!");
       }
@@ -63,6 +72,9 @@ function Login() {
           role="alert"
         >
           {errMsg !== "" && <p>{errMsg}</p>}
+        </div>
+        <div className={okMsg ? "auth-ok ok-visible" : "auth-ok"} role="alert">
+          {okMsg !== "" && <p>{okMsg}</p>}
         </div>
         <form onSubmit={handleRegisterSubmit} className="form-container">
           <div className="form-data">
@@ -114,6 +126,7 @@ function Login() {
               aria-label="password"
               aria-required="true"
               id="password"
+              minLength="6"
               name="password"
               onChange={handleRegisterInfo}
               placeholder="Senha"

@@ -92,6 +92,7 @@ function Login() {
               aria-label="password"
               aria-required="true"
               id="password"
+              minLength="6"
               onChange={handlePasswordInput}
               placeholder="Senha"
               required

@@ -57,4 +57,4 @@ Caso queira também rodar a parte do servidor e banco de dados na sua máquina, 
 Caso tenha alguma dúvida ou alguma sugestão fico no aguardo da sua mensagem!
 
 ## :computer: Live Demo
-Para visualizar uma versão de demonstração do site clique [aqui](https://rodhenr.github.io/ToDo-List/).
+Para visualizar uma versão de demonstração da aplicação no modo anônimo clique [aqui](https://rodhenr.github.io/ToDo-List/).

@@ -59,7 +59,10 @@ function Home() {
   };
 
   const handleUpdateTodo = (task_id, task_desc) => {
-    if (task !== "" && data.some((i) => i.task_desc.task === task)) {
+    if (
+      task_desc.task !== "" &&
+      data.some((i) => i.task_desc.task === task_desc.task)
+    ) {
       alert("Item repetido! Digite outra descrição.");
     } else {
       dispatch(updateTodo({ task_id, task_desc }));

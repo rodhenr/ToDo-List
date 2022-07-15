@@ -4,7 +4,7 @@ Essa é uma aplicação de lista de tarefas, onde você pode arrastar os itens e
 
 - A primeira delas é no modo anônimo onde não requer um cadastro e as informações são salvas pelo redux e persistidas caso aconteça um refresh na página.
 
-- A segunda forma funciona utilizando **MySQL** e o **Node.js** juntamente com o front-end. Com este método é possível realizar cadastros de usuários e fazer login para que cada usuário salve suas informações na database.
+- A segunda forma funciona utilizando **Sequelize** e o **Node.js** juntamente com o front-end. Com este método é possível realizar cadastros de usuários e fazer login para que cada usuário salve suas informações na database.
 
 <p align="center">
 <img alt="gif" src="https://media2.giphy.com/media/audXC31R5yFycYqWaZ/giphy.gif?cid=790b76112cf40aed7e826bfca8b829258764ac44c7b1e055&rid=giphy.gif&ct=g" />
@@ -29,6 +29,7 @@ Para este projeto foram utilizadas as seguintes tecnologias:
 **BACK-END**
 
 - [Express](https://expressjs.com/pt-br/)
+- [Sequelize](https://sequelize.org/)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [JWT](https://jwt.io/)
 - [UUID](https://www.uuidgenerator.net/)
@@ -47,7 +48,7 @@ Para replicar esse projeto de forma local no seu computador siga os passos abaix
 2. Execute o comando npm start para rodar localmente na porta 3000
 ```
 
-### Node + MySQL
+### Back-End
 
 Caso queira também rodar a parte do servidor e banco de dados na sua máquina, siga os passos adicionais:
 
@@ -58,8 +59,9 @@ Caso queira também rodar a parte do servidor e banco de dados na sua máquina, 
 1. Crie uma nova database no seu MySQL com o comando "CREATE DATABASE nomedatabase;"
 2. Execute o comando npm i para instalar as dependências do projeto
 3. No arquivo .env altere as informações de acordo com as suas configurações
-4. Execute o comando npm run dev para rodar o servidor localmente utilizando
-5. Se tudo estiver configurado corretamente irá aparecer a mensagem "Servidor iniciado na porta ..." no console
+4. Execute o comando "npx sequelize-cli db:migrate" para executar as migrations do sequelize e as tabelas da sua database serem criadas
+5. Execute o comando npm run dev para rodar o servidor localmente
+6. Se tudo estiver configurado corretamente irá aparecer a mensagem "Servidor iniciado na porta ..." no console
 ```
 
 _OBS: Arquivos .env podem possuir informações sensíveis e caso você queira subir seu projeto para o github é aconselhável que o .env seja acrescentado no seu arquivo .gitignore_
